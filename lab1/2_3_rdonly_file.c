@@ -28,10 +28,11 @@ void rdonly_file(const char *filename, const char *str_mode) {
 
   /* First writing */
   char str[] = "Hello!";
-  int cnt = write(fd, str, strlen(str) - 1);
+  int cnt = write(fd, str, strlen(str));
   fprintf(stderr, "> Syscall write() returned: %d bytes written, error: %s\n", cnt, strerror(errno));
 
   /* EXPERIMENT: try to remove file at this step */
+  fprintf(stdout, "EXPERIMENT: try to remove file at this step");
   getchar();
 
   fd = close(fd);
@@ -47,7 +48,7 @@ void rdonly_file(const char *filename, const char *str_mode) {
   fprintf(stderr, "> Syscall open() returned: %d, error: %s\n", fd, strerror(errno));
 
   char buf[10] = "";
-  cnt = read(fd, buf, strlen(str) - 1);
+  cnt = read(fd, buf, strlen(str));
   fprintf(stderr, "> Syscall read() returned: %d bytes read, error: %s\n", cnt, strerror(errno));
 
   fd = close(fd);

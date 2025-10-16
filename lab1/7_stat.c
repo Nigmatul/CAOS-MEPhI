@@ -53,3 +53,13 @@ void file_stat(const char *filename) {
   fd = close(fd);
   fprintf(stderr, "> Syscall close() returned: %d, error: %s\n", fd, strerror(errno));
 }   
+
+int main(int argc, char **argv) {
+  if (argc < 2) {
+    fprintf(stdout, "Usage: %s [filename]\n", argv[0]);
+  }
+  
+  file_stat(argv[1]);
+
+  return 0;
+}

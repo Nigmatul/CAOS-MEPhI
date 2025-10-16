@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <time.h>
 
 void print_stat(const char *filename, struct stat *st, FILE *stream) {
   if (!filename || !st || !stream) {
@@ -57,18 +58,17 @@ void sparsed_file(const char *filename, const char *str_mode) {
 
   /* First write */
   int ret = lseek(fd, 0, SEEK_SET);
-  fprintf(stderr, "> Syscall lseek() returned: %d bytes written, error: %s\n", ret, strerror(errno));
+  fprintf(stderr, "> Syscall lseek() returned: %d, error: %s\n", ret, strerror(errno));
 
   char str[] = "Hello!";
   int cnt = write(fd, str, strlen(str) - 1);
   fprintf(stderr, "> Syscall write() returned: %d bytes written, error: %s\n", cnt, strerror(errno));
 
   /* Second write */
-  int ret = lseek(fd, 1LL<<20, SEEK_CUR);
-  fprintf(stderr, "> Syscall lseek() returned: %d bytes written, error: %s\n", ret, strerror(errno));
+  ret = lseek(fd, 1LL<<20, SEEK_CUR);
+  fprintf(stderr, "> Syscall lseek() returned: %d, error: %s\n", ret, strerror(errno));
 
-  char str[] = "Hello!";
-  int cnt = write(fd, str, strlen(str) - 1);
+  cnt = write(fd, str, strlen(str) - 1);
   fprintf(stderr, "> Syscall write() returned: %d bytes written, error: %s\n", cnt, strerror(errno));
 
   /* File info */
@@ -82,4 +82,14 @@ void sparsed_file(const char *filename, const char *str_mode) {
   fprintf(stderr, "> Syscall close() returned: %d, error: %s\n", fd, strerror(errno));
 
   umask(old);
+}
+
+int main(int argc, char **argv) {
+  if (argc < 3) {
+    fprintf(stdout, "Usage: %s [filename] [mode]\n", argv[0]);
+  }
+  
+  sparsed_file(argv[1], argv[2]);
+
+  return 0;
 }
