@@ -45,8 +45,12 @@ all:
 10:
 	gcc 10_reverse_output.c -o 10 -g
 	mkdir -p tmp
-	echo 'Hello\!\!' > tmp/file.txt 
+	echo "Hello, it's Mario." > tmp/file.txt 
 	./10 tmp/file.txt
 
+11:
+	gcc 11_largest_file.c -o 11 -g
+	./11 1_errors.c 2_3_rdonly_file.c 4_5_rdwr_file.c 
+
 clean:
-	rm -r 1 2_3 4_5 6 7 8 9 10 tmp
+	rm -r 1 2_3 4_5 6 7 8 9 10 11 tmp
